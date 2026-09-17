@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cửa Hàng Trực Tuyến - LHU E-Commerce Store</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 1. Header & Thanh Điều Hướng -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        🛒 LHU Store <span class="brand-badge">TMĐT 2026</span>
+      </a>
+
+      <!-- Ô Tìm kiếm nhanh -->
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Tìm sản phẩm bạn quan tâm...">
+      </div>
+
+      <!-- Nút Giỏ hàng & Link Admin -->
+      <div class="header-actions">
+        <button class="btn-cart-toggle" onclick="openCartDrawer()">
+          🛍️ Giỏ hàng <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <a href="admin.html" class="btn-admin-link">⚙️ Quản Trị</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Hero Banner Giới Thiệu -->
+  <section class="hero-banner">
+    <div class="container hero-content">
+      <span class="hero-tag">🌟 Khám phá bộ sưu tập mới nhất</span>
+      <h1 class="hero-title">Mua Sắm Trực Tuyến Tiện Lợi & Thông Minh</h1>
+      <p class="hero-desc">Sản phẩm chính hãng, giao hàng toàn quốc và hỗ trợ tư vấn tự động cùng Trợ lý ảo AI 24/7.</p>
+    </div>
+  </section>
+
+  <!-- 3. Khu vực Lọc Danh Mục & Danh Sách Sản Phẩm -->
+  <main class="container">
+    <!-- Thanh lọc Danh mục -->
+    <div class="category-section">
+      <div class="category-pills" id="categoryPills">
+        <button class="cat-pill active" data-id="">Tất cả</button>
+      </div>
+    </div>
+
+    <!-- Danh sách sản phẩm -->
+    <section class="products-section">
+      <div class="section-header">
+        <h2 class="section-title">Danh Sách Sản Phẩm</h2>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span id="productCount" style="font-size: 13px; color: #64748b;">Đang tải...</span>
+          <select id="sortSelect" class="sort-select">
+            <option value="">Sắp xếp: Mặc định</option>
+            <option value="price_asc">Giá: Thấp đến Cao</option>
+            <option value="price_desc">Giá: Cao đến Thấp</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="product-grid" id="productGrid">
+        <!-- Render động bằng JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- 4. Giỏ Hàng Trượt (Cart Drawer) -->
+  <div class="cart-drawer-backdrop" id="cartBackdrop" onclick="closeCartDrawer()"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3 class="cart-title">🛍️ Giỏ Hàng Của Bạn</h3>
+      <button class="btn-close" onclick="closeCartDrawer()">✕</button>
+    </div>
+    <div class="cart-body" id="cartItemsBody">
+      <!-- Render động danh sách món hàng -->
+    </div>
+    <div class="cart-footer">
+      <div class="cart-subtotal">
+        <span>Tổng cộng:</span>
+        <span id="cartSubtotal" style="color: #ef4444;">0 đ</span>
+      </div>
+      <button class="btn-checkout-start" onclick="openCheckoutModal()">
+        Tiến Hành Đặt Hàng ➔
+      </button>
+    </div>
+  </div>
+
+  <!-- 5. Modal Đặt Hàng (Checkout Form) -->
+  <div class="modal-overlay hidden" id="checkoutModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-size: 18px; font-weight: bold;">📝 Thông Tin Giao Hàng & Thanh Toán</h3>
+        <button class="btn-close" onclick="closeCheckoutModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+          <div class="form-group">
+            <label class="form-label">Họ và Tên (*)</label>
+            <input type="text" name="customerName" class="form-input" placeholder="Ví dụ: Nguyễn Văn An" required>
+          </div>
+          <div style="display: flex; gap: 12px;">
+            <div class="form-group" style="flex: 1;">
+              <label class="form-label">Số Điện Thoại (*)</label>
+              <input type="tel" name="customerPhone" class="form-input" placeholder="09xxxxxxxx" required>
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label class="form-label">Email (*)</label>
+              <input type="email" name="customerEmail" class="form-input" placeholder="an@gmail.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Địa Chỉ Nhận Hàng (*)</label>
+            <input type="text" name="shippingAddress" class="form-input" placeholder="Số nhà, Tên đường, Phường, Quận/Huyện, Tỉnh/TP" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phương Thức Thanh Toán (*)</label>
+            <select name="paymentMethod" class="form-select" required>
+              <option value="COD">💵 Thanh toán tiền mặt khi nhận hàng (COD)</option>
+              <option value="VIETQR">📲 Chuyển khoản Ngân hàng (Mã VietQR)</option>
+              <option value="MOMO_QR">🟣 Ví Điện Tử MoMo (Quét mã QR)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ghi Chú Đơn Hàng</label>
+            <input type="text" name="note" class="form-input" placeholder="Ghi chú thêm cho người giao hàng...">
+          </div>
+          <button type="submit" id="btnSubmitOrder" class="btn-checkout-start">
+            Xác Nhận Đặt Hàng
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Modal Thanh Toán QR (VietQR / MoMo) -->
+  <div class="modal-overlay hidden" id="qrModal">
+    <div class="modal-content" style="max-width: 440px; text-align: center;">
+      <div class="modal-header">
+        <h3 style="font-size: 17px; font-weight: bold;">📲 Quét Mã QR Để Thanh Toán</h3>
+        <button class="btn-close" onclick="closeQRModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="qr-preview-box">
+          <img id="qrImage" src="" alt="Mã QR Thanh Toán" class="qr-img">
+          <p style="font-size: 13px; color: #64748b; margin-bottom: 8px;">Mở ứng dụng Ngân hàng hoặc MoMo để quét mã</p>
+          <div style="font-size: 14px; margin-bottom: 4px;">Đơn hàng: <strong id="qrOrderCode">#...</strong></div>
+          <div style="font-size: 18px; font-weight: bold; color: #ef4444; margin-bottom: 6px;">Số tiền: <span id="qrTotalAmount">0 đ</span></div>
+          <div style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 6px; border-radius: 6px;" id="qrNoteInfo">
+            Nội dung CK: DH ...
+          </div>
+        </div>
+        <button class="btn-checkout-start" onclick="closeQRModal()">
+          ✓ Tôi Đã Hoàn Tất Chuyển Khoản
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Modal Xem Chi Tiết Sản Phẩm -->
+  <div class="modal-overlay hidden" id="productDetailModal">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3 style="font-size: 17px; font-weight: bold;">Chi Tiết Sản Phẩm</h3>
+        <button class="btn-close" onclick="closeProductDetailModal()">✕</button>
+      </div>
+      <div class="modal-body" id="productDetailContent">
+        <!-- Render động thông tin sản phẩm -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Widget Trợ Lý AI Gemini Nổi Góc Màn Hình -->
+  <button class="ai-widget-button" onclick="toggleAIChat()" title="Chat với Trợ lý AI">
+    🤖
+  </button>
+  <div class="ai-chat-window hidden" id="aiChatWindow">
+    <div class="ai-chat-header">
+      <div class="ai-chat-title">
+        <span>🤖</span>
+        <div>
+          <div>LHU AI Assistant</div>
+          <div style="font-size: 11px; font-weight: normal; opacity: 0.85;">Trợ lý tư vấn sản phẩm thông minh</div>
+        </div>
+      </div>
+      <button class="btn-close" style="color: #fff;" onclick="toggleAIChat()">✕</button>
+    </div>
+    <div class="ai-chat-messages" id="aiMessages">
+      <div class="msg msg-ai">
+        Dạ em chào bạn! Em là Trợ lý ảo AI của cửa hàng. Bạn đang tìm mua sản phẩm nào hay cần em tư vấn gì không ạ? 😊
+      </div>
+    </div>
+    <form class="ai-chat-input-area" onsubmit="sendAIMessage(event)">
+      <input type="text" id="aiInput" class="ai-chat-input" placeholder="Hỏi AI về sản phẩm..." autocomplete="off">
+      <button type="submit" class="ai-chat-send">➤</button>
+    </form>
+  </div>
+
+  <!-- 9. Footer -->
+  <footer>
+    <div class="container">
+      <p style="margin-bottom: 6px;"><strong>Đồ Án Môn Học:</strong> Lập trình ứng dụng (Mã HP: 112175) — Khoa CNTT — Trường Đại học Lạc Hồng (LHU)</p>
+      <p style="font-size: 13px;">Hệ thống Backend RESTful API kết nối Cơ sở dữ liệu MongoDB Atlas & Trợ lý ảo AI Google Gemini</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/ai-chat.js"></script>
+</body>
+</html>

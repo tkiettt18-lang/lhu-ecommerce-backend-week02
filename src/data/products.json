@@ -1,0 +1,74 @@
+[
+  {
+    "_id": "prod_01",
+    "name": "Áo Thun Polo LHU Cao Cấp",
+    "category": "cat_01",
+    "originalPrice": 250000,
+    "salePrice": 199000,
+    "stock": 50,
+    "image": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=500",
+    "description": "Chất liệu cotton 100% thoáng mát, thấm hút mồ hôi cực tốt.",
+    "rating": 4.9,
+    "isFeatured": true
+  },
+  {
+    "_id": "prod_02",
+    "name": "Áo Sơ Mi Nam Công Sở Slimfit",
+    "category": "cat_01",
+    "originalPrice": 350000,
+    "salePrice": 290000,
+    "stock": 35,
+    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500",
+    "description": "Form ôm vừa vặn tôn dáng, vải chống nhăn cao cấp.",
+    "rating": 4.8,
+    "isFeatured": true
+  },
+  {
+    "_id": "prod_03",
+    "name": "Đầm Xòe Nữ Phong Cách Hàn Quốc",
+    "category": "cat_02",
+    "originalPrice": 420000,
+    "salePrice": 349000,
+    "stock": 25,
+    "image": "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=500",
+    "description": "Thiết kế thanh lịch, nhẹ nhàng, voan lụa mềm mại.",
+    "rating": 5.0,
+    "isFeatured": true
+  },
+  {
+    "_id": "prod_04",
+    "name": "Áo Khoác Blazer Nữ Thời Trang",
+    "category": "cat_02",
+    "originalPrice": 550000,
+    "salePrice": 450000,
+    "stock": 20,
+    "image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500",
+    "description": "Áo blazer 2 lớp dày dặn, chuẩn form công sở hiện đại.",
+    "rating": 4.7,
+    "isFeatured": false
+  },
+  {
+    "_id": "prod_05",
+    "name": "Giày Sneaker Trắng Năng Động",
+    "category": "cat_03",
+    "originalPrice": 600000,
+    "salePrice": 480000,
+    "stock": 40,
+    "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500",
+    "description": "Đế êm chống trượt, basic dễ phối đồ cho cả nam và nữ.",
+    "rating": 4.9,
+    "isFeatured": true
+  },
+  {
+    "_id": "prod_06",
+    "name": "Balo Đi Học Chống Nước Đa Năng",
+    "category": "cat_03",
+    "originalPrice": 320000,
+    "salePrice": 249000,
+    "stock": 60,
+    "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500",
+    "description": "Có ngăn đựng laptop 15.6 inch riêng biệt, vải Oxford chống nước.",
+    "rating": 4.6,
+    "isFeatured": false
+  }
+]
