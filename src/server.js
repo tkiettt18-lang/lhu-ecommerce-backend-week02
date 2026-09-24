@@ -1,15 +1,18 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const express = require("express");
-const cors = require("cors");
-const connectDB = require("./config/db");
-const categoryRoutes = require("./routes/categoryRoutes");
-const productRoutes = require("./routes/productRoutes");
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/db');
+
+// Import các Routes
+const authRoutes = require('./routes/authRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
+const productRoutes = require('./routes/productRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// 1. Kết nối CSDL MongoDB Atlas
+// 1. Kết nối MongoDB Atlas
 connectDB();
 
 // 2. Middleware
@@ -18,18 +21,31 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // 3. Health Check
-app.get("/api/health", (req, res) => {
+app.get('/api/health', (req, res) => {
   res.status(200).json({
-    status: "OK",
-    message: "Backend và MongoDB Atlas đang kết nối ổn định!",
+    status: 'OK',
+    message: 'Hệ thống Auth & Phân quyền hoạt động ổn định!'
   });
 });
 
-// 4. Routes
-app.use("/api/categories", categoryRoutes);
-app.use("/api/products", productRoutes);
+// 4. Định tuyến API
+app.use('/api/auth', authRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/products', productRoutes);
 
-// 5. Khởi chạy Server
+// 5. Bắt lỗi 404
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `Đường dẫn [${req.method}] ${req.originalUrl} không tồn tại!`
+  });
+});
+
+// 6. Khởi chạy Server
 app.listen(PORT, () => {
-  console.log(`🚀 Server Tuần 02 đang chạy tại: http://localhost:${PORT}`);
+  console.log('====================================================');
+  console.log(`🚀 Server Tuần 04 đang chạy tại: http://localhost:${PORT}`);
+  console.log(`🔑 Test Đăng nhập: POST http://localhost:${PORT}/api/auth/login`);
+  console.log(`📦 Test Sản phẩm: GET http://localhost:${PORT}/api/products`);
+  console.log('====================================================');
 });
