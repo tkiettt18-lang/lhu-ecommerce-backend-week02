@@ -264,7 +264,7 @@ async function handleCheckoutSubmit(e) {
 }
 
 // 6. Hiển thị Modal Thanh Toán QR (VietQR / MoMo)
-function showQRModal(order, method) {
+async function showQRModal(order, method) {
   const modal = document.getElementById('qrModal');
   const qrImg = document.getElementById('qrImage');
   const orderCodeEl = document.getElementById('qrOrderCode');
@@ -279,12 +279,14 @@ function showQRModal(order, method) {
   if (infoEl) infoEl.innerText = `Chuyển khoản thanh toán ĐH #${orderCode}`;
 
   if (qrImg) {
-    if (method === 'VIETQR') {
-      // Dùng dịch vụ VietQR API mở công khai tạo nhanh QR ngân hàng
-      qrImg.src = `https://img.vietqr.io/image/MB-0987654321-compact2.png?amount=${totalAmount}&addInfo=DH%20${orderCode}&accountName=LHU%20ECOMMERCE%20STORE`;
+    // Gọi API Backend tạo QR theo cấu hình ngân hàng / MoMo trong .env
+    const qrRes = await API.createPaymentQR(order._id, method);
+    if (qrRes.success && qrRes.data?.qrUrl) {
+      qrImg.src = qrRes.data.qrUrl;
+    } else if (method === 'VIETQR') {
+      qrImg.src = `https://img.vietqr.io/image/MB-0389412559-compact2.png?amount=${totalAmount}&addInfo=DH%20${orderCode}&accountName=LHU%20ECOMMERCE%20STORE`;
     } else {
-      // Dùng hình ảnh MoMo QR mẫu
-      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=2|99|0987654321|LHU%20STORE||0|0|${totalAmount}|DH%20${orderCode}|transfer_myqr`;
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=2|99|0389412559|LHU%20STORE||0|0|${totalAmount}|DH%20${orderCode}|transfer_myqr`;
     }
   }
 
