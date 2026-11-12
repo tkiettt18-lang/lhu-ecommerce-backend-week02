@@ -3,16 +3,21 @@
   "version": "1.0.0",
   "description": "Dự án Kết Nối MongoDB Atlas & Mongoose Models - Tuần 02 - LHU TMĐT",
   "main": "src/server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "node src/server.js",
     "dev": "npx nodemon src/server.js",
     "seed": "node src/seeder.js"
   },
   "dependencies": {
+    "@google/genai": "^2.32.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "mongoose": "^8.24.4"
+    "mongoose": "^8.24.4",
+    "nodemailer": "^10.5.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"

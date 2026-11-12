@@ -253,7 +253,10 @@ async function handleCheckoutSubmit(e) {
     if (paymentMethod === 'VIETQR' || paymentMethod === 'MOMO_QR') {
       showQRModal(createdOrder, paymentMethod);
     } else {
-      alert(`🎉 Đặt hàng thành công!\nMã đơn hàng: #${createdOrder.orderCode || createdOrder._id}\nCảm ơn bạn đã mua sắm tại LHU Store!`);
+      const mailNote = res.emailNotification?.sent
+        ? `\n📧 Đã gửi chi tiết đơn hàng tới email: ${createdOrder.customerEmail}`
+        : '';
+      alert(`🎉 Đặt hàng thành công!\nMã đơn hàng: #${createdOrder.orderCode || createdOrder._id}${mailNote}\nCảm ơn bạn đã mua sắm tại LHU Store!`);
     }
   } else {
     alert(`❌ Đặt hàng thất bại: ${res.message || 'Lỗi không xác định'}`);

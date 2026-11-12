@@ -1,9 +1,15 @@
 /**
- * CẤU HÌNH KẾT NỐI API BACKEND CHO FRONTEND TEMPLATE
- * Sinh viên chỉ cần đảm bảo Backend chạy tại cổng 5000, 
- * hoặc thay đổi đường dẫn này khi deploy lên Cloud (Render.com)
+ * CẤU HÌNH KẾT NỐI API BACKEND
+ * Tự động trỏ về http://localhost:5000/api khi chạy file HTML / Live Server cục bộ,
+ * hoặc tự dùng domain hiện tại (Render.com) khi deploy lên Cloud.
  */
-const API_BASE_URL = 'http://localhost:5000/api';
+const isLocalFile = window.location.protocol === 'file:';
+const isLocalDevServer =
+  ['localhost', '127.0.0.1'].includes(window.location.hostname) &&
+  window.location.port !== '5000';
+const API_BASE_URL = (isLocalFile || isLocalDevServer)
+  ? 'http://localhost:5000/api'
+  : `${window.location.origin}/api`;
 
 const API = {
   // 1. Danh mục

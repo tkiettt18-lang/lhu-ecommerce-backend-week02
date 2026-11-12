@@ -46,8 +46,17 @@ async function sendAIMessage(e) {
   const activeTyping = document.getElementById(typingId);
   if (activeTyping) activeTyping.remove();
 
-  const replyText = res.success ? res.reply : (res.message || 'Xin lỗi bạn, trợ lý AI đang bận. Bạn vui lòng thử lại câu hỏi khác nhé!');
+  const replyText = res.success
+    ? (res.reply || res.data?.reply || 'Xin lỗi bạn, trợ lý AI chưa trả về nội dung.')
+    : (res.message || res.reply || 'Xin lỗi bạn, trợ lý AI đang bận. Bạn vui lòng thử lại câu hỏi khác nhé!');
   appendMessage(replyText, 'ai');
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 function appendMessage(text, sender) {
@@ -57,8 +66,8 @@ function appendMessage(text, sender) {
   const msg = document.createElement('div');
   msg.className = `msg ${sender === 'user' ? 'msg-user' : 'msg-ai'}`;
   
-  // Hỗ trợ hiển thị xuống dòng đẹp mắt
-  msg.innerHTML = text.replace(/\n/g, '<br>');
+  // An toàn HTML và hiển thị xuống dòng đẹp mắt
+  msg.innerHTML = escapeHtml(text).replace(/\n/g, '<br>');
   messagesContainer.appendChild(msg);
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
